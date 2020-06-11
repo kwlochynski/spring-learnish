@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.thymeleaf.org ">
+<link rel="stylesheet" type="text/css" href="/resources/css/login.css" />
+<link
+	href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap"
+	rel="stylesheet">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<script type="text/javascript">
+	function mylinkfunction(e) {
+		window.location.href = "#register";
+		e.preventDefault();
+		e.stopPropagation();
+	}
+</script>
+
+</head>
+
+<body>
+
+	<div class="container">
+		<div class="login">
+			<h2 class="loginTitle">LOGOWANIE</h2>
+			<div class="loginElements">
+				<form class="loginForm" action="#" th:action="@{/login}"
+					th:object="${user}" method="post">
+					<span th:if="${param.error != null}" class="error">
+						Nieprawidłowy email lub hasło! </span>
+					<p class="loginText">E-mail:</p>
+					<input class="loginInput" placeholder="E-mail" th:field="*{email}"
+						type="text">
+
+					<p class="loginText">Hasło:</p>
+					<input class="loginInput" placeholder="Hasło"
+						th:field="*{password}" type="password">
+
+					<div>
+						<button type="submit" class="actionButton">ZALOGUJ</button>
+					</div>
+
+					<div id="registerOnMobile">
+						<p>Nie masz konta?</p>
+						<p id="boldText" onclick="mylinkfunction()">Zarejestruj się!</p>
+					</div>
+
+				</form>
+			</div>
+		</div>
+
+		<div id="register" class="login">
+			<h2 class="loginTitle">REJESTRACJA</h2>
+			<p class="success" th:text="${message}"></p>
+
+			<div class="loginElements">
+				<form class="loginForm" id="usersForm" action="#"
+					th:action="@{/adduser}" th:object="${user}" method="post">
+
+					<p class="loginText">Email:</p>
+					<input th:field="*{email}" class="loginInput" placeholder="Email"
+						type="text" />
+					<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+						class="error"></p>
+					<p class="loginText">Hasło:</p>
+					<input th:field="*{password}" class="loginInput"
+						placeholder="Hasło" type="password" />
+					<p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+						class="error"></p>
+
+					<div>
+						<button type="submit" class="actionButton">ZAREJESTRUJ</button>
+					</div>
+				</form>
+			</div>
+		</div>
+
+	</div>
+
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.thymeleaf.org ">
+<head>
+<meta charset="UTF-8">
+<title>Learnish</title>
+<link rel="stylesheet" type="text/css" href="/resources/css/style.css">
+<link
+	href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap"
+	rel="stylesheet">
+
+
+<script th:inline="javascript">
+var wordNumber = 0;
+var listOfWords = [[${words}]];
+
+window.onload = function() {
+	  	displayWords(0);
+	};
+
+function displayWords(number) {
+	wordNumber += number;
+    if(wordNumber < [[${#lists.size(words)}]] && wordNumber >= 0)
+    	{
+    	document.getElementById("word").innerHTML = listOfWords[wordNumber].wordName +" "+listOfWords[wordNumber].wordRead;
+    	document.getElementById("translation").innerHTML = listOfWords[wordNumber].wordTranslation;
+    	}
+    else if(wordNumber < 0)
+    	{
+    	wordNumber = 0;
+    	}
+    else if(wordNumber >= [[${#lists.size(words)}]])
+    	{
+    	wordNumber = [[${#lists.size(words)}]] -1;
+    	alert("Brak kolejnych słówek");
+    	}
+}
+
+</script>
+
+</head>
+
+<body>
+
+
+	<div class="side">
+		<a id="nav">Wyloguj</a> <a id="nav">Kategorie</a>
+	</div>
+	
+	<div id="wordContainer">
+		<h1 id="word"></h1>
+		<h1 id="translation"></h1>
+		<div>
+			<img class="arrow" id="left" src="/resources/images/next.png" title="Poprzednie słowo" onClick=displayWords(-1);>
+			<img src="/resources/images/save.png" id="save" title="Oznacz jako nauczone">
+			<img class="arrow" src="/resources/images/next.png" title="Następne słowo" onClick=displayWords(1);>
+		</div>
+	</div>
+	<div class="side" id="foot">Postęp: 0/[[${#lists.size(words)}]]</div>
+
+</body>
+
+</html>

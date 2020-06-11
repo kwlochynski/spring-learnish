@@ -1,0 +1,138 @@
+@charset "UTF-8";
+
+body {
+	margin: 0;
+	padding: 0;
+	background-color: #335666;
+}
+
+.container {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	margin: 25vh auto;
+	height: 50vh;
+	text-align: center;
+	font-size: 18px;
+	font-family: 'Comfortaa';
+	font-weight:bold;
+}
+
+.login {
+	text-align: center;
+	width: 20vw;
+	color: #c1dee5;
+	display: inline;
+	background-color: #335666;
+	margin: 0 25px;
+	transition: .3s;
+	overflow: auto;
+	-webkit-box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.2);
+	-moz-box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.2);
+	box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.2);
+}
+
+.loginElements {
+	height: 65%;
+	display: flex;
+}
+
+.loginForm {
+	margin: auto;
+	max-width: 80%;
+}
+
+.loginTitle {
+	margin-top: 5vh;
+}
+
+.loginText {
+	margin-left: 10%;
+	margin-bottom: 10px;
+	text-align: left;
+}
+
+.loginInput {
+	background-color: #c1dee5;
+	padding-left: 10px;
+	padding-right: 10px;
+	font-size: 15px;
+	-webkit-border-radius: 50px; 
+	-moz-border-radius: 50px; 
+	border-radius: 50px;
+	border:0px;
+	transition: .3s;
+	margin:5px;
+}
+
+.actionButton {
+	margin-top: 30px;
+	height: 40px;
+	width: auto;
+	padding: 0 20px;
+	color: #c1dee5;
+	background: none;
+	border: 1px solid white;
+	-webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
+	border-radius: 20px;
+	font-size: 17px;
+	transition: .3s;
+}
+
+.actionButton:hover {
+	transition: .6s;
+	color: #335666;
+	background-color: #c1dee5;
+}
+
+.success {
+	color: green;
+	margin: 0;
+	font-size: 16px;
+}
+
+.error {
+	color: red;
+	font-weight: bold; margin : 0;
+	font-size: 16px;
+	margin: 0;
+}
+
+#registerOnMobile {
+	display: none;
+}
+
+@media screen and (max-width:1280px) {
+	.login {
+		width: 30vw;
+	}
+}
+
+@media screen and (max-width:960px) {
+	.container {
+		flex-direction: column;
+		margin: 0;
+		height: 200vh;
+	}
+	.login {
+		margin-bottom: 10vh;
+		margin: auto;
+		width: 90vw;
+		height: 90vh;
+	}
+	.loginElements {
+		height: 70%;
+	}
+	#registerOnMobile {
+		margin-top: 30px;
+		display: inherit;
+	}
+	#registerOnMobile p {
+		margin: 5px;
+		cursor: pointer;
+	}
+	#boldText {
+		font-weight: bold;
+	}
+}
