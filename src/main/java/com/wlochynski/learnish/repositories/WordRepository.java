@@ -27,6 +27,7 @@ public interface WordRepository extends JpaRepository<Word, Integer> {
 	@Query("SELECT w FROM Word w LEFT JOIN SavedWord s ON w.wordId = s.wordId where w.category =:category and NOT EXISTS (SELECT s.userId from SavedWord s WHERE s.userId =:userId and w.wordId = s.wordId)")
 	List<Word> getWordsToLearnByCategory(Category category, int userId);
 	
-	
+	@Query("SELECT w FROM Word w JOIN SavedWord s ON w.wordId = s.wordId where s.userId =:userId")
+	List<Word> getSavedWords(int userId);
 
 }

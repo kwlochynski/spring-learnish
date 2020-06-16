@@ -35,4 +35,9 @@ public class SavedWordServiceImpl implements SavedWordService {
 	{
 		return savedWordRepository.listOfProgress(userId);
 	}
+
+	@Override
+	public void delete(int wordId, int userId) {
+		 savedWordRepository.deleteByWordIdByUserId(wordId, userId);
+	}
 }

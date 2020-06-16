@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.thymeleaf.org ">
+<head>
+<meta charset="UTF-8">
+<title>Learnish</title>
+<link rel="stylesheet" type="text/css" href="/resources/css/style.css">
+<link
+	href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap"
+	rel="stylesheet">
+</head>
+<body>
+	<div class="side">Lista zapamiętanych słów</div>
+	<div id="wordsContainer">
+		<th:block th:each="savedWord : ${listOfSavedWords}">
+			<p class="savedWord"
+				th:text="${savedWord.wordName + ' ' + savedWord.wordRead + ' - ' + savedWord.wordTranslation}"></p>
+			<div class="deleteBox">
+				<a class="deleteSavedWord" th:href="${'deleteWord/' +savedWord.wordId}"
+					th:text="USUŃ"></a>
+			</div>
+		</th:block>
+	</div>
+</body>
+</html>

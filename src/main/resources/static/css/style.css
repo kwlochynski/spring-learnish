@@ -2,6 +2,7 @@ body {
 	margin: 0;
 	font-family: 'Comfortaa';
 	text-transform: uppercase;
+	background-color: #335666;
 }
 
 .side {
@@ -15,8 +16,8 @@ body {
 }
 
 .nav {
-	color:#c1dee5;
-	text-decoration:none;
+	color: #c1dee5;
+	text-decoration: none;
 	float: right;
 	margin-right: 30px;
 	cursor: pointer;
@@ -134,4 +135,18 @@ body {
 
 #wordContainer img:hover {
 	cursor: pointer;
+}
+.deleteSavedWord {
+	font-weight: 900;
+  	color:white;
+	text-decoration:none;
+}
+.deleteBox{
+	margin-bottom: 40px;
+	
+}
+
+#wordsContainer{
+	color:white;
+	text-align:center;
 }

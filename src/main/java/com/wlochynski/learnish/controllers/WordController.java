@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.wlochynski.learnish.model.SavedWord;
-import com.wlochynski.learnish.model.User;
 import com.wlochynski.learnish.utilites.UserUtilites;
 import com.wlochynski.learnish.model.Word;
 import com.wlochynski.learnish.model.Word.Category;
@@ -38,16 +37,13 @@ public class WordController {
 	@Autowired
 	SavedWordService savedWordService;
 	
-	User user;
+	
 	
 	@GET
 	@RequestMapping("/words/{category}")
 	public String words(Model model, @PathVariable String category)
 	{
-		String userEmail = UserUtilites.getLoggedUser();
-		user = userService.findUserByEmail(userEmail);
-
-		List<Word> listOfWords = wordService.getWordsToLearnByCategory(Category.valueOf(category),user.getUserId());
+		List<Word> listOfWords = wordService.getWordsToLearnByCategory(Category.valueOf(category), userService.findUserByEmail(UserUtilites.getLoggedUser()).getUserId());
 		Collections.shuffle(listOfWords);
 		model.addAttribute("words",listOfWords);
 		
@@ -62,8 +58,26 @@ public class WordController {
 	public void saveWord(@PathVariable int wordId)
 	{
 		SavedWord savedWord = new SavedWord();
-		savedWord.setUserId(user.getUserId());
+		savedWord.setUserId(userService.findUserByEmail(UserUtilites.getLoggedUser()).getUserId());
 		savedWord.setWordId(wordId);
 		savedWordService.save(savedWord);
+	}
+	
+	
+	@GET
+	@RequestMapping("/savedWords")
+	public String savedWords(Model model)
+	{
+		model.addAttribute("listOfSavedWords",wordService.getSavedWords(userService.findUserByEmail(UserUtilites.getLoggedUser()).getUserId()));
+
+		return "savedWords";
+	}
+	
+	@POST
+	@RequestMapping("/deleteWord/{wordId}")
+	@ResponseStatus(value = HttpStatus.OK)
+	public void deleteWord(@PathVariable int wordId)
+	{
+		savedWordService.delete(wordId, userService.findUserByEmail(UserUtilites.getLoggedUser()).getUserId());
 	}
 }

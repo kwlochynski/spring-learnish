@@ -12,5 +12,7 @@ public interface SavedWordService {
 	long countByUserId(int userId);
 
 	List<WordDTO> listOfProgress(int userId);
+	
+	void delete(int wordId, int userId);
 
 }

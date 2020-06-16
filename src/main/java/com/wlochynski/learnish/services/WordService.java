@@ -12,5 +12,5 @@ public interface WordService {
 	int countAll();
 	List<Word> findAllByCategory(Category category);
 	List<Word> getWordsToLearnByCategory(Category category, int userId);
-	
+	List<Word> getSavedWords(int userId);
 }
