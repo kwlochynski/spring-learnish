@@ -11,15 +11,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.wlochynski.learnish.model.Word;
+import com.wlochynski.learnish.model.User;
+import com.wlochynski.learnish.services.SavedWordService;
+import com.wlochynski.learnish.services.UserService;
 import com.wlochynski.learnish.services.WordService;
-import com.wlochynski.learnish.model.Word.Category;
+import com.wlochynski.learnish.utilites.UserUtilites;
 
 @Controller
 public class HomeController {
 
 	@Autowired
 	WordService wordService;
+	
+	@Autowired
+	SavedWordService savedWordService;
+	
+	@Autowired
+	UserService userService;
 
 	@GET
 	@RequestMapping(value = { "/", "/index" })
@@ -35,11 +43,11 @@ public class HomeController {
 		 * word.setCategory(Word.Category.VERBS); wordService.saveWord(word); }
 		 * s.close();
 		 */
-
-		model.addAttribute("nouns", wordService.countByCategory(Category.NOUNS));
-		model.addAttribute("verbs", wordService.countByCategory(Category.VERBS));
-		model.addAttribute("adjectives", wordService.countByCategory(Category.ADJECTIVES));
-		model.addAttribute("others", wordService.countByCategory(Category.OTHERS));
+		
+		String userEmail = UserUtilites.getLoggedUser();
+		User user = userService.findUserByEmail(userEmail);
+		
+		model.addAttribute("listOfProgress", savedWordService.listOfProgress(user.getUserId()));
 
 
 		return "index";

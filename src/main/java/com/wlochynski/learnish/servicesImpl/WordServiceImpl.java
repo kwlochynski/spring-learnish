@@ -30,7 +30,17 @@ public class WordServiceImpl implements WordService {
 	}
 	
 	@Override
+	public int countAll() {
+		return (int) wordRepository.count();
+	}
+	
+	@Override
 	public List<Word> findAllByCategory(Category category) {
 		return wordRepository.findAllByCategory(category);
+	}
+
+	@Override
+	public List<Word> getWordsToLearnByCategory(Category category, int userId) {
+		return wordRepository.getWordsToLearnByCategory(category, userId);
 	}
 }

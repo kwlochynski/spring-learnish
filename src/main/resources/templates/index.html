@@ -9,33 +9,42 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap"
 	rel="stylesheet">
+	
+<script th:inline="javascript">
+var progressList = [[${listOfProgress}]];
+var sumWords = 0;
+var sumSavedWords = 0;
+
+window.onload = function() {
+	progressList.forEach(countWords);
+	document.getElementById("progress").innerHTML = 'Ogólny postęp : ' + sumSavedWords + '/' + sumWords;
+};
+
+
+function countWords(item) {
+	sumWords += item.numberOfWords;
+	sumSavedWords += item.numberOfSavedWords;
+}
+
+
+</script>	
+
 </head>
 
 <body>
 	<div class="side">Wybierz kategorię</div>
 	<div id="container">
-		<div id="nounsBox" onclick="window.location.href='/words/NOUNS'">
-			<img id="nounsImg" src="/resources/images/nouns.png">
-			<h1>Rzeczowniki</h1>
-			<h2 th:text="'0/' + ${nouns}"></h2>
-		</div>
-		<div id="verbsBox" onclick="window.location.href='/words/VERBS'">
-			<img id="verbsImg" src="/resources/images/verbs.png">
-			<h1>Czasowniki</h1>
-			<h2 th:text="'0/' + ${verbs}"></h2>
-		</div>
-		<div id="adjectivesBox" onclick="window.location.href='/words/ADJECTIVES'">
-			<img id="adjectivesImg" src="/resources/images/adjectives.png">
-			<h1>Przymiotniki</h1>
-			<h2 th:text="'0/' + ${adjectives}"></h2>
-		</div>
-		<div id="othersBox" onclick="window.location.href='/words/OTHERS'">
-			<img id="othersImg" src="/resources/images/others.png">
-			<h1>Inne</h1>
-			<h2 th:text="'0/' + ${others}"></h2>
-		</div>
+			<th:block th:each="progress : ${listOfProgress}">
+					<div class="category" th:id="${progress.category} + 'Box'" th:onclick="'window.location.href = \'' + @{/words/{category}(category=${progress.category})} + '\''">
+						<img th:id="${progress.category} + 'Img'" th:src="@{${'/resources/images/' + progress.category + '.png'}}">
+						<h1 th:text="#{'category.'+ ${progress.category}}"></h1>
+						<h2 th:text="${progress.numberOfSavedWords} + '/' + ${progress.numberOfWords}"></h2>
+					</div>
+			</th:block>
+	</div> 
+	<div class="side" id="foot">
+		<span id="progress"></span>
 	</div>
-	<div class="side" id="foot"><span th:text="'Ogólny postęp: 0/' + ${nouns + verbs + adjectives + others}"></span></div>
 </body>
 
 </html>

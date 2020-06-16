@@ -1,52 +1,39 @@
 package com.wlochynski.learnish.dto;
 
+import com.wlochynski.learnish.model.Word.Category;
+
 public class WordDTO {
-	private String wordName;
-
-	private String wordTranslation;
-
-	private String wordRead;
+	private Category category;
+	private long numberOfWords;
+	private long numberOfSavedWords;
 	
-	private boolean ifSaved;
-
-	public WordDTO(String wordName, String wordTranslation, String wordRead, boolean ifSaved) {
-		this.wordName = wordName;
-		this.wordTranslation = wordTranslation;
-		this.wordRead = wordRead;
-		this.ifSaved = ifSaved;
+	public WordDTO(Category category, long numberOfWords, long numberOfSavedWords) {
+		super();
+		this.category = category;
+		this.numberOfWords = numberOfWords;
+		this.numberOfSavedWords = numberOfSavedWords;
+	}
+	public Category getCategory() {
+		return category;
+	}
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+	public long getNumberOfWords() {
+		return numberOfWords;
+	}
+	public void setNumberOfWords(long numberOfWords) {
+		this.numberOfWords = numberOfWords;
+	}
+	public long getNumberOfSavedWords() {
+		return numberOfSavedWords;
+	}
+	public void setNumberOfSavedWords(long numberOfSavedWords) {
+		this.numberOfSavedWords = numberOfSavedWords;
 	}
 
-	public String getWordName() {
-		return wordName;
-	}
 
-	public void setWordName(String wordName) {
-		this.wordName = wordName;
-	}
 
-	public String getWordTranslation() {
-		return wordTranslation;
-	}
-
-	public void setWordTranslation(String wordTranslation) {
-		this.wordTranslation = wordTranslation;
-	}
-
-	public String getWordRead() {
-		return wordRead;
-	}
-
-	public void setWordRead(String wordRead) {
-		this.wordRead = wordRead;
-	}
-
-	public boolean isIfSaved() {
-		return ifSaved;
-	}
-
-	public void setIfSaved(boolean ifSaved) {
-		this.ifSaved = ifSaved;
-	}
 	
 	
 }

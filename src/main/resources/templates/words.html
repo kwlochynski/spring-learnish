@@ -10,10 +10,10 @@
 	href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap"
 	rel="stylesheet">
 
-
-<script th:inline="javascript">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script><script th:inline="javascript">
 var wordNumber = 0;
 var listOfWords = [[${words}]];
+var savedWords = [[${allWords} - ${#lists.size(words)}]];
 
 window.onload = function() {
 	  	displayWords(0);
@@ -37,15 +37,25 @@ function displayWords(number) {
     	}
 }
 
+function saveWord() {
+	$.ajax({
+		url : '/saveWord/' + listOfWords[wordNumber].wordId,
+		success : function(data, status) {
+	    	document.getElementById("numSavedWords").innerHTML = savedWords + 1;
+	    	savedWords++;
+	    	listOfWords.splice(wordNumber,1);
+	    	displayWords(0);
+		}
+	})
+}
 </script>
 
 </head>
 
 <body>
 
-
 	<div class="side">
-		<a id="nav">Wyloguj</a> <a id="nav">Kategorie</a>
+		<a class="nav" href="/logout">Wyloguj</a> <a class="nav" href="/">Kategorie</a>
 	</div>
 	
 	<div id="wordContainer">
@@ -53,11 +63,11 @@ function displayWords(number) {
 		<h1 id="translation"></h1>
 		<div>
 			<img class="arrow" id="left" src="/resources/images/next.png" title="Poprzednie słowo" onClick=displayWords(-1);>
-			<img src="/resources/images/save.png" id="save" title="Oznacz jako nauczone">
+			<img src="/resources/images/saved.png" id="save" title="Oznacz jako nauczone" onClick=saveWord();>
 			<img class="arrow" src="/resources/images/next.png" title="Następne słowo" onClick=displayWords(1);>
 		</div>
 	</div>
-	<div class="side" id="foot">Postęp: 0/[[${#lists.size(words)}]]</div>
+	<div class="side" id="foot" ><span>Postęp kategorii : </span><span id="numSavedWords">[[${allWords} - ${#lists.size(words)}]]</span><span th:text="${'/' + allWords}"></span></div>
 
 </body>
 

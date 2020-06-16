@@ -7,7 +7,10 @@ import com.wlochynski.learnish.model.Word.Category;
 
 
 public interface WordService {
-	public void saveWord(Word word);
-	public int countByCategory(Category category);
-	public List<Word> findAllByCategory(Category category);
+	void saveWord(Word word);
+	int countByCategory(Category category);
+	int countAll();
+	List<Word> findAllByCategory(Category category);
+	List<Word> getWordsToLearnByCategory(Category category, int userId);
+	
 }
