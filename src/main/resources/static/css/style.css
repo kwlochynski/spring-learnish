@@ -3,6 +3,8 @@ body {
 	font-family: 'Comfortaa';
 	text-transform: uppercase;
 	background-color: #335666;
+	width: 100%;
+	height: 100%;
 }
 
 .side {
@@ -11,21 +13,18 @@ body {
 	text-align: center;
 	line-height: 100px;
 	color: #c1dee5;
-	font-size: 30px;
-	font-weight: bold;
+	font-size: 15px;
 }
 
 .nav {
 	color: #c1dee5;
 	text-decoration: none;
 	float: right;
-	margin-right: 30px;
+	margin-right: 10px;
 	cursor: pointer;
 }
 
 #foot {
-	position: absolute;
-	bottom: 0;
 	width: 100%;
 }
 
@@ -38,6 +37,7 @@ body {
 	display: -webkit-box;
 	display: flex;
 	height: calc(100vh - 200px);
+	width: 100%;
 }
 
 #container div {
@@ -86,67 +86,103 @@ body {
 }
 
 #container img {
-	height: 10vw;
+	height: 15vh;
 }
 
 @media only screen and (max-width: 800px) {
-	#container {
-		height: calc(50vh - 100px);
-	}
-	#container img {
-		height: 20vw;
-	}
 	#container div {
+		height: calc(50% - 0px);
 		font-size: 2vw;
+		width: 50%;
 	}
 	.side {
-		font-size: 30px;
 	}
 }
 
-#wordContainer {
-	height: calc(100vh - 200px);
+.wordContainer {
 	background-color: #335666;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
-}
-
-#wordContainer img {
-	height: 50px;
-	margin-top: 10px;
-}
-
-#wordContainer h1 {
-	line-height: 50px;
-	text-align: center;
 	color: #c1dee5;
-	margin: 0px;
+	font-size:20px;
 }
 
-.arrow {
-	margin: 0 30px;
+.wordContainer img {
+	height: 50px;
+	margin-top: 0px;
+}
+
+.wordContainer button {
+	text-align:center;
+	border: none;
+	border: solid 1px #c1dee5;
+	color: #c1dee5;
+	background-color: rgba(255, 255, 255, 0);
+	height: 60px;
+	font-size: 15px;
+	margin: 10px 0;
+}
+
+.wordContainer input {
+	width:245px;
+	color: #c1dee5;
+	border: solid 1px #c1dee5;
+	background-color: rgba(255, 255, 255, 0);
+	height: 60px;
+	font-size: 20px;
+	padding-left: 10px;
+	padding-right: 10px;
+	margin: 10px 0;
+}
+.wordContainer span {
+	margin: 10px 0;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+	color: #c1dee5;
+	opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+	color: #c1dee5;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+	color: #c1dee5;
+}
+.changeButton{
+	width:150px;
+}
+.showButton{
+	width:150px;
+}
+.markButton{
+	width:200px;	
+}
+.arrow{
+	margin: -20px 0px;
 }
 
 #left {
 	transform: rotate(180deg);
 }
-
-#wordContainer img:hover {
+.wordContainer button:hover {
+	cursor: pointer;
+}
+.wordContainer img:hover {
 	cursor: pointer;
 }
 .deleteSavedWord {
 	font-weight: 900;
-  	color:white;
-	text-decoration:none;
+	color: #c1dee5;
+	text-decoration: none;
 }
-.deleteBox{
+.deleteBox {
 	margin-bottom: 40px;
-	
 }
-
-#wordsContainer{
-	color:white;
-	text-align:center;
+#wordsContainer {
+	color: #c1dee5;
+	text-align: center;
 }

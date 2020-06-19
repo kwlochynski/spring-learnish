@@ -4,50 +4,151 @@
 	xsi:schemaLocation="http://www.thymeleaf.org ">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Learnish</title>
 <link rel="stylesheet" type="text/css" href="/resources/css/style.css">
 <link
 	href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap"
 	rel="stylesheet">
 
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script><script th:inline="javascript">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+<script th:inline="javascript">
 var wordNumber = 0;
+var wordToRepeatNumber = 0;
 var listOfWords = [[${words}]];
-var savedWords = [[${allWords} - ${#lists.size(words)}]];
-
+var listOfWordsToRepeat = [[${wordsToRepeat}]];
+var savedWords = [[${allWords} - ${#lists.size(words)} - ${#lists.size(wordsToRepeat)}]];
+var hintNumber = 0;
 window.onload = function() {
 	  	displayWords(0);
+	  	displayWordsToRepeat(0);
 	};
 
 function displayWords(number) {
-	wordNumber += number;
-    if(wordNumber < [[${#lists.size(words)}]] && wordNumber >= 0)
-    	{
-    	document.getElementById("word").innerHTML = listOfWords[wordNumber].wordName +" "+listOfWords[wordNumber].wordRead;
-    	document.getElementById("translation").innerHTML = listOfWords[wordNumber].wordTranslation;
-    	}
-    else if(wordNumber < 0)
-    	{
-    	wordNumber = 0;
-    	}
-    else if(wordNumber >= [[${#lists.size(words)}]])
-    	{
-    	wordNumber = [[${#lists.size(words)}]] -1;
-    	alert("Brak kolejnych słówek");
-    	}
+	if(listOfWords.length>0)
+		{
+		wordNumber += number;
+	    if(wordNumber < listOfWords.length && wordNumber >= 0)
+	    	{
+	    	document.getElementById("word").innerHTML = listOfWords[wordNumber].wordName +" "+listOfWords[wordNumber].wordRead;
+	    	document.getElementById("translation").innerHTML = listOfWords[wordNumber].wordTranslation;
+	    	}
+	    else if(wordNumber < 0)
+	    	{
+	    	wordNumber = 0;
+	    	}
+	    else if(wordNumber >= listOfWords.length)
+	    	{
+	    	wordNumber = listOfWords.length -1;
+	    	}
+	    document.getElementById("numberOfWord").innerHTML = wordNumber + 1 + "/" +  listOfWords.length;
+		}
+	else
+		{
+    	document.getElementById("word").innerHTML = "Brak słówek";
+    	document.getElementById("translation").style.display = "none";
+		}
+}
+
+function displayWordsToRepeat(number) {
+	hintNumber = 0;
+	document.getElementById("wordToRepeat").value = "";
+	if(listOfWordsToRepeat.length>0)
+		{
+		wordToRepeatNumber += number;
+		document.getElementById("wordToRepeat").style.display = "flex"; 
+		if(wordToRepeatNumber <  listOfWordsToRepeat.length && wordToRepeatNumber >= 0)
+			{
+	    	document.getElementById("wordToRepeat").innerHTML = listOfWordsToRepeat[wordToRepeatNumber].wordName +" "+listOfWordsToRepeat[wordToRepeatNumber].wordRead;
+	    	document.getElementById("translationToRepeat").innerHTML = listOfWordsToRepeat[wordToRepeatNumber].wordTranslation;
+			}
+	    else if(wordToRepeatNumber < 0)
+			{
+		    wordToRepeatNumber = 0;
+			}
+		else if(wordToRepeatNumber >= listOfWordsToRepeat.length)
+			{
+			wordToRepeatNumber = listOfWordsToRepeat.length -1;
+			}
+	    document.getElementById("numberOfWordToRepeat").innerHTML = wordToRepeatNumber + 1 + "/" +  listOfWordsToRepeat.length;
+		document.getElementById("correctAnswer").style.display="none";
+		}
+	if(listOfWordsToRepeat.length==0)
+		{
+		document.getElementById("wordToRepeat").style.display = "none"; 
+		document.getElementById("translationToRepeat").innerHTML = "Brak słówek";
+		document.getElementById("numberOfWordToRepeat").innerHTML = "";
+		}
+
+}
+
+function changeWords(number) {
+	if(number==1)
+		{
+		document.getElementById("wordContainer").style.display="none";
+		document.getElementById("wordToRepeatContainer").style.display="flex";
+		}
+	else
+		{
+		document.getElementById("wordContainer").style.display="flex";
+		document.getElementById("wordToRepeatContainer").style.display="none";
+		}
+}
+
+function checkWord(word) {
+	var check = listOfWordsToRepeat[wordToRepeatNumber].wordName;
+	check = check.split(' ')[0];
+	if(word.toUpperCase() === check.toUpperCase())
+		{
+		document.getElementById("correctAnswer").style.display="flex";
+		}
+	else
+		{
+		document.getElementById("correctAnswer").style.display="none";
+		}
+}
+
+function hintLetter() {
+	var hintWord = listOfWordsToRepeat[wordToRepeatNumber].wordName;
+	hintWord = hintWord.split(' ')[0];
+	if(hintNumber <= hintWord.length)
+		{
+		hintNumber++;
+		document.getElementById("wordToRepeat").value = hintWord.substring(0,hintNumber);
+		}
+}
+function hintWord() {
+	var hintWord = listOfWordsToRepeat[wordToRepeatNumber].wordName;
+	hintWord = hintWord.split(' ')[0];
+	document.getElementById("wordToRepeat").value = hintWord;
 }
 
 function saveWord() {
 	$.ajax({
-		url : '/saveWord/' + listOfWords[wordNumber].wordId,
+		url : '/saveWord/' + listOfWordsToRepeat[wordNumber].wordId,
 		success : function(data, status) {
 	    	document.getElementById("numSavedWords").innerHTML = savedWords + 1;
 	    	savedWords++;
-	    	listOfWords.splice(wordNumber,1);
-	    	displayWords(0);
+	    	listOfWordsToRepeat.splice(wordNumber,1);
+	    	displayWordsToRepeat(0);
 		}
 	})
 }
+
+function saveWordToRepeat() {
+	$.ajax({
+		url : '/saveWordToRepeat/' + listOfWords[wordNumber].wordId,
+		success : function(data, status) {
+	    	listOfWordsToRepeat.push(listOfWords[wordNumber]);
+	    	listOfWords.splice(wordNumber,1);
+	    	displayWords(0);
+	    	displayWordsToRepeat(0);
+		}
+	})
+}
+
+
 </script>
 
 </head>
@@ -55,19 +156,51 @@ function saveWord() {
 <body>
 
 	<div class="side">
-		<a class="nav" href="/logout">Wyloguj</a> <a class="nav" href="/">Kategorie</a>
+		<a class="nav" href="/logout">Wyloguj</a> <a class="nav" href="/">Kategorie</a> <a class="nav" href="/savedWords">Nauczone</a>
 	</div>
-	
-	<div id="wordContainer">
-		<h1 id="word"></h1>
-		<h1 id="translation"></h1>
+
+	<div id="wordContainer" class="wordContainer">
 		<div>
-			<img class="arrow" id="left" src="/resources/images/next.png" title="Poprzednie słowo" onClick=displayWords(-1);>
-			<img src="/resources/images/saved.png" id="save" title="Oznacz jako nauczone" onClick=saveWord();>
-			<img class="arrow" src="/resources/images/next.png" title="Następne słowo" onClick=displayWords(1);>
+			<button class="changeButton" onClick=changeWords(0);>NAUKA</button>
+			<button class="changeButton" onClick=changeWords(1);>POWTÓRKA</button>
 		</div>
+		<span id="word"></span> <span id="translation"></span>
+		<div class="iconsBox">
+			<img class="arrow" id="left" src="/resources/images/next.png"
+				title="Poprzednie słowo" onClick=displayWords(-1);>
+			<button class="markButton" onClick=saveWordToRepeat();>Dodaj do powtórki</button>
+			<img class="arrow" src="/resources/images/next.png"
+				title="Następne słowo" onClick=displayWords(1);>
+		</div>
+		<span id="numberOfWord"></span>
 	</div>
-	<div class="side" id="foot" ><span>Postęp kategorii : </span><span id="numSavedWords">[[${allWords} - ${#lists.size(words)}]]</span><span th:text="${'/' + allWords}"></span></div>
+	<div id="wordToRepeatContainer" class="wordContainer"
+		style="display: none;">
+		<div>
+			<button class="changeButton" onClick=changeWords(0);>NAUKA</button>
+			<button class="changeButton" onClick=changeWords(1);>POWTÓRKA</button>
+		</div>
+		<span id="translationToRepeat"></span> <input id="wordToRepeat"
+			placeholder="Wpisz słowo po hiszpańsku"
+			onkeyup=checkWord(this.value);> <span id="correctAnswer"
+			style="display: none;">Prawidłowo!</span>
+		<button class="showButton" onClick=hintLetter()>POKAŻ
+			LITERĘ</button>
+		<button class="showButton" onClick=hintWord()>POKAŻ SŁOWO</button>
+		<div class="iconsBox">
+			<img class="arrow" id="left" src="/resources/images/next.png"
+				title="Poprzednie słowo" onClick=displayWordsToRepeat(-1);>
+			<button class="markButton" onClick=saveWord();>Oznacz jako nauczone</button>
+			<img class="arrow" src="/resources/images/next.png"
+				title="Następne słowo" onClick=displayWordsToRepeat(1);>
+		</div>
+		<span id="numberOfWordToRepeat"></span>
+	</div>
+	<div class="side" id="foot">
+		<span>Postęp kategorii : </span><span id="numSavedWords">[[${allWords}
+			- ${#lists.size(words)} - ${#lists.size(wordsToRepeat)}]]</span><span
+			th:text="${'/' + allWords}"></span>
+	</div>
 
 </body>
 

@@ -48,4 +48,9 @@ public class WordServiceImpl implements WordService {
 	public List<Word> getSavedWords(int userId) {
 		return wordRepository.getSavedWords(userId);
 	}
+
+	@Override
+	public List<Word> getWordsToRepeatByCategory(int userId, Category category) {
+		return wordRepository.getWordsToRepeatByCategory(userId, category);
+	}
 }
